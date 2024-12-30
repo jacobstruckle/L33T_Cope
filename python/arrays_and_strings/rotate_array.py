@@ -8,10 +8,10 @@ class Solution:
             raise ValueError("Input array cannot be empty")
         
         n = len(nums)
-        steps %= n  # Handle cases where steps are greater than the array size
+        steps %= n
         nums[:] = nums[-steps:] + nums[:-steps]
 
-# Unit tests
+
 class TestSolution(unittest.TestCase):
     def setUp(self):
         self.solution = Solution()
@@ -33,21 +33,21 @@ class TestSolution(unittest.TestCase):
     def test_case_3(self):
         nums = [1]
         steps = 10
-        expected_nums = [1]  # Single element, remains the same
+        expected_nums = [1]
         self.solution.rotate_array(nums, steps)
         self.assertEqual(nums, expected_nums)
 
     def test_case_4(self):
         nums = [1, 2, 3]
         steps = 0
-        expected_nums = [1, 2, 3]  # No rotation
+        expected_nums = [1, 2, 3]
         self.solution.rotate_array(nums, steps)
         self.assertEqual(nums, expected_nums)
 
     def test_case_5(self):
         nums = [1, 2, 3, 4, 5]
         steps = 5
-        expected_nums = [1, 2, 3, 4, 5]  # Full rotation returns original array
+        expected_nums = [1, 2, 3, 4, 5]
         self.solution.rotate_array(nums, steps)
         self.assertEqual(nums, expected_nums)
 
