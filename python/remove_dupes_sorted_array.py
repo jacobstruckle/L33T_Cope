@@ -8,7 +8,6 @@ class Solution:
                 unique_index += 1
                 nums[unique_index] = nums[i]
         return unique_index + 1
-
 if __name__ == "__main__":
     solution = Solution()
     nums1 = [1, 1, 2]
