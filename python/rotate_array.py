@@ -1,14 +1,61 @@
+from typing import List
+import unittest
+
 class Solution:
-    def rotate_array(self, array, steps):
-        length = len(array)
-        steps = steps % length
-        array[:] = array[-steps:] + array[:-steps]
-solution = Solution()
-nums1 = [1, 2, 3, 4, 5, 6, 7]
-steps1 = 3
-solution.rotate_array(nums1, steps1)
-print(nums1)
-nums2 = [-1, -100, 3, 99]
-steps2 = 2
-solution.rotate_array(nums2, steps2)
-print(nums2)
+    def rotate_array(self, nums: List[int], steps: int) -> None:
+
+        if not nums:
+            raise ValueError("Input array cannot be empty")
+        
+        n = len(nums)
+        steps %= n  # Handle cases where steps are greater than the array size
+        nums[:] = nums[-steps:] + nums[:-steps]
+
+# Unit tests
+class TestSolution(unittest.TestCase):
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_case_1(self):
+        nums = [1, 2, 3, 4, 5, 6, 7]
+        steps = 3
+        expected_nums = [5, 6, 7, 1, 2, 3, 4]
+        self.solution.rotate_array(nums, steps)
+        self.assertEqual(nums, expected_nums)
+
+    def test_case_2(self):
+        nums = [-1, -100, 3, 99]
+        steps = 2
+        expected_nums = [3, 99, -1, -100]
+        self.solution.rotate_array(nums, steps)
+        self.assertEqual(nums, expected_nums)
+
+    def test_case_3(self):
+        nums = [1]
+        steps = 10
+        expected_nums = [1]  # Single element, remains the same
+        self.solution.rotate_array(nums, steps)
+        self.assertEqual(nums, expected_nums)
+
+    def test_case_4(self):
+        nums = [1, 2, 3]
+        steps = 0
+        expected_nums = [1, 2, 3]  # No rotation
+        self.solution.rotate_array(nums, steps)
+        self.assertEqual(nums, expected_nums)
+
+    def test_case_5(self):
+        nums = [1, 2, 3, 4, 5]
+        steps = 5
+        expected_nums = [1, 2, 3, 4, 5]  # Full rotation returns original array
+        self.solution.rotate_array(nums, steps)
+        self.assertEqual(nums, expected_nums)
+
+    def test_empty_array(self):
+        nums = []
+        steps = 3
+        with self.assertRaises(ValueError):
+            self.solution.rotate_array(nums, steps)
+
+if __name__ == "__main__":
+    unittest.main()
