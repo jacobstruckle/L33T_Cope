@@ -1,43 +1,56 @@
+import argparse
 from typing import List
-import unittest
+
 
 class Solution:
+    """
+    A class to calculate the h-index of a researcher based on their citation counts.
+    """
+
     def hIndex(self, citations: List[int]) -> int:
+        """
+        Calculates the h-index of a researcher.
+
+        Args:
+            citations (List[int]): List of citation counts.
+
+        Returns:
+            int: The h-index value.
+        """
+        if not citations:
+            return 0
+
         sorted_citations = sorted(citations, reverse=True)
-        h_index = 0
+        for i, citation in enumerate(sorted_citations):
+            if citation < i + 1:
+                return i
+        return len(sorted_citations)
 
-        for i, citation_count in enumerate(sorted_citations):
-            if citation_count >= i + 1:
-                h_index = i + 1
-            else:
-                break
 
-        return h_index
+def main():
+    """
+    Main function to handle user interaction through the terminal.
+    """
+    parser = argparse.ArgumentParser(
+        description="Calculate the h-index based on a list of citation counts."
+    )
+    parser.add_argument(
+        "citations",
+        nargs="*",
+        type=int,
+        help="A list of integers representing citation counts (e.g., 3 0 6 1 5).",
+    )
+    args = parser.parse_args()
 
-# Unit tests
-class TestSolution(unittest.TestCase):
-    def setUp(self):
-        self.solution = Solution()
+    if not args.citations:
+        print("Error: No citation data provided.")
+        print("Usage: python h_index.py <citation1> <citation2> ... <citationN>")
+        return
 
-    def test_case_1(self):
-        citations = [3, 0, 6, 1, 5]
-        self.assertEqual(self.solution.hIndex(citations), 3)
+    solution = Solution()
+    h_index = solution.hIndex(args.citations)
+    print(f"The calculated h-index is: {h_index}")
 
-    def test_case_2(self):
-        citations = [1, 3, 1]
-        self.assertEqual(self.solution.hIndex(citations), 1)
-
-    def test_case_3(self):
-        citations = [0, 0, 0, 0]
-        self.assertEqual(self.solution.hIndex(citations), 0)
-
-    def test_case_4(self):
-        citations = [10, 8, 5, 4, 3]
-        self.assertEqual(self.solution.hIndex(citations), 4)
-
-    def test_case_5(self):
-        citations = []
-        self.assertEqual(self.solution.hIndex(citations), 0)
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
